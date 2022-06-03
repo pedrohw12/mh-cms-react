@@ -23,6 +23,10 @@ const Home: NextPage = () => {
   }, []);
 
   function handleSubmit() {
+    if (!name || !role || !socialMediaUrl || !description || !imgUrl) {
+      alert("Please fill all the inputs.");
+      return;
+    }
     axios
       .post("http://localhost:3333/members", {
         name,
@@ -74,22 +78,30 @@ const Home: NextPage = () => {
           value={imgUrl}
           onChange={(e) => setImgUrl(e.target.value)}
         />
-        <button type="button" onClick={handleSubmit}>
+        <button className="submitButton" type="button" onClick={handleSubmit}>
           Submit
         </button>
         <p>These are our current members:</p>
-        {members.map((member: any) => (
-          <div
-            key={member._id}
-            style={{ border: "1px solid #000", padding: 20, borderRadius: 10 }}
-          >
-            <p>{member.name}</p>
-            <p>{member.role}</p>
-            <p>{member.socialMediaUrl}</p>
-            <p>{member.description}</p>
-            <p>{member.imgUrl}</p>
-          </div>
-        ))}
+        <div style={{ display: "flex" }}>
+          {members.map((member: any) => (
+            <div
+              key={member._id}
+              style={{
+                border: "1px solid #fff",
+                padding: 20,
+                borderRadius: 10,
+                margin: 10,
+                width: 200,
+              }}
+            >
+              <p>{member.name}</p>
+              <p>{member.role}</p>
+              <p>{member.socialMediaUrl}</p>
+              <p>{member.description}</p>
+              <p>{member.imgUrl}</p>
+            </div>
+          ))}
+        </div>
       </main>
 
       <footer className={styles.footer}>
