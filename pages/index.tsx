@@ -4,6 +4,15 @@ import styles from "../styles/Home.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+type Member = {
+  _id: string;
+  name: string;
+  role: string;
+  socialMediaUrl: string;
+  description: string;
+  imgUrl: string;
+};
+
 const Home: NextPage = () => {
   const [members, setMembers] = useState([]);
   const [name, setName] = useState("");
@@ -11,6 +20,11 @@ const Home: NextPage = () => {
   const [socialMediaUrl, setSocialMediaUrl] = useState("");
   const [description, setDescription] = useState("");
   const [imgUrl, setImgUrl] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [selectedMemberToEdit, setSelectedMemberToEdit] = useState<Member>(
+    {} as Member
+  );
+  const [wantToDelete, setWantToDelete] = useState(false);
 
   useEffect(() => {
     axios
@@ -22,7 +36,7 @@ const Home: NextPage = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  function handleSubmit() {
+  function registerMember() {
     if (!name || !role || !socialMediaUrl || !description || !imgUrl) {
       alert("Please fill all the inputs.");
       return;
@@ -40,6 +54,53 @@ const Home: NextPage = () => {
         alert("Member successfully registered!");
       })
       .catch((err) => console.log(err));
+  }
+
+  function handleSubmit() {
+    if (!isEditing) {
+      registerMember();
+      return
+    }
+
+    axios
+      .put(`http://localhost:3333/members/${selectedMemberToEdit._id}`, {
+        name,
+        role,
+        socialMediaUrl,
+        description,
+        imgUrl,
+      })
+      .then((response) => {
+        console.log(response);
+        alert("Member successfully registered!");
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleEdit(member: Member) {
+    setIsEditing(true);
+    setSelectedMemberToEdit(member);
+    setName(member.name);
+    setRole(member.role);
+    setSocialMediaUrl(member.socialMediaUrl);
+    setDescription(member.description);
+    setImgUrl(member.imgUrl);
+  }
+
+  function handleDelete(member: Member) {
+    let confirmAction = confirm("Are you sure to delete this member?");
+    if (confirmAction) {
+      axios
+        .delete(`http://localhost:3333/members/${member._id}`)
+        .then((response) => {
+          console.log(response);
+          alert("Member successfully registered!");
+        })
+        .catch((err) => console.log(err));
+      return;
+    } else {
+      return;
+    }
   }
 
   return (
@@ -85,15 +146,36 @@ const Home: NextPage = () => {
         <div style={{ display: "flex" }}>
           {members.map((member: any) => (
             <div
+              onClick={() => handleEdit(member)}
               key={member._id}
               style={{
+                position: "relative",
+                cursor: "pointer",
                 border: "1px solid #fff",
                 padding: 20,
                 borderRadius: 10,
-                margin: 10,
+                margin: 20,
                 width: 200,
               }}
             >
+              <div
+                onClick={() => handleDelete(member)}
+                style={{
+                  position: "absolute",
+                  top: 10,
+                  right: 10,
+                  backgroundColor: "#750909",
+                  color: "#fff",
+                  borderRadius: "50%",
+                  height: 40,
+                  width: 40,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <p>DEL</p>
+              </div>
               <p>{member.name}</p>
               <p>{member.role}</p>
               <p>{member.socialMediaUrl}</p>
