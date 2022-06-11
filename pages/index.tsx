@@ -1,202 +1,210 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import * as React from 'react';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
+import Team from './atomic/organism/team';
+import Navigator from './atomic/organism/navigator';
+import Header from './atomic/organism/header';
 
-type Member = {
-  _id: string;
-  name: string;
-  role: string;
-  socialMediaUrl: string;
-  description: string;
-  imgUrl: string;
+function Copyright() {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://mui.com/">
+        Your Website
+      </Link>{' '}
+      {new Date().getFullYear()}.
+    </Typography>
+  );
+}
+
+let theme = createTheme({
+  palette: {
+    primary: {
+      light: '#392f2f',
+      main: '#c47272',
+      dark: '#724949',
+    },
+  },
+  typography: {
+    h5: {
+      fontWeight: 500,
+      fontSize: 26,
+      letterSpacing: 0.5,
+    },
+  },
+  shape: {
+    borderRadius: 8,
+  },
+  components: {
+    MuiTab: {
+      defaultProps: {
+        disableRipple: true,
+      },
+    },
+  },
+  mixins: {
+    toolbar: {
+      minHeight: 48,
+    },
+  },
+});
+
+theme = {
+  ...theme,
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: '#081627',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+        },
+        contained: {
+          boxShadow: 'none',
+          '&:active': {
+            boxShadow: 'none',
+          },
+        },
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        root: {
+          marginLeft: theme.spacing(1),
+        },
+        indicator: {
+          height: 3,
+          borderTopLeftRadius: 3,
+          borderTopRightRadius: 3,
+          backgroundColor: theme.palette.common.white,
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: 'none',
+          margin: '0 16px',
+          minWidth: 0,
+          padding: 0,
+          [theme.breakpoints.up('md')]: {
+            padding: 0,
+            minWidth: 0,
+          },
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          padding: theme.spacing(1),
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          borderRadius: 4,
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgb(255,255,255,0.15)',
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          '&.Mui-selected': {
+            color: '#4fc3f7',
+          },
+        },
+      },
+    },
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          fontSize: 14,
+          fontWeight: theme.typography.fontWeightMedium,
+        },
+      },
+    },
+    MuiListItemIcon: {
+      styleOverrides: {
+        root: {
+          color: 'inherit',
+          minWidth: 'auto',
+          marginRight: theme.spacing(2),
+          '& svg': {
+            fontSize: 20,
+          },
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          width: 32,
+          height: 32,
+        },
+      },
+    },
+  },
 };
 
-const Home: NextPage = () => {
-  const [members, setMembers] = useState([]);
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [socialMediaUrl, setSocialMediaUrl] = useState("");
-  const [description, setDescription] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedMemberToEdit, setSelectedMemberToEdit] = useState<Member>(
-    {} as Member
-  );
-  const [wantToDelete, setWantToDelete] = useState(false);
+const drawerWidth = 256;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3333/members")
-      .then((response) => {
-        console.log(response);
-        setMembers(response.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+export default function Paperbase() {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const isSmUp = useMediaQuery(theme.breakpoints.up('sm'));
 
-  function registerMember() {
-    if (!name || !role || !socialMediaUrl || !description || !imgUrl) {
-      alert("Please fill all the inputs.");
-      return;
-    }
-    axios
-      .post("http://localhost:3333/members", {
-        name,
-        role,
-        socialMediaUrl,
-        description,
-        imgUrl,
-      })
-      .then((response) => {
-        console.log(response);
-        alert("Member successfully registered!");
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleSubmit() {
-    if (!isEditing) {
-      registerMember();
-      return
-    }
-
-    axios
-      .put(`http://localhost:3333/members/${selectedMemberToEdit._id}`, {
-        name,
-        role,
-        socialMediaUrl,
-        description,
-        imgUrl,
-      })
-      .then((response) => {
-        console.log(response);
-        alert("Member successfully registered!");
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleEdit(member: Member) {
-    setIsEditing(true);
-    setSelectedMemberToEdit(member);
-    setName(member.name);
-    setRole(member.role);
-    setSocialMediaUrl(member.socialMediaUrl);
-    setDescription(member.description);
-    setImgUrl(member.imgUrl);
-  }
-
-  function handleDelete(member: Member) {
-    let confirmAction = confirm("Are you sure to delete this member?");
-    if (confirmAction) {
-      axios
-        .delete(`http://localhost:3333/members/${member._id}`)
-        .then((response) => {
-          console.log(response);
-          alert("Member successfully registered!");
-        })
-        .catch((err) => console.log(err));
-      return;
-    } else {
-      return;
-    }
-  }
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Mouse Haunt CMS</title>
-        <meta name="description" content="Generated by create next app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>Welcome to Mouse Haunt CMS!</h1>
-        <p>Add new member</p>
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          placeholder="Role"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        />
-        <input
-          placeholder="Social media url"
-          value={socialMediaUrl}
-          onChange={(e) => setSocialMediaUrl(e.target.value)}
-        />
-        <input
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          placeholder="Image url"
-          value={imgUrl}
-          onChange={(e) => setImgUrl(e.target.value)}
-        />
-        <button className="submitButton" type="button" onClick={handleSubmit}>
-          Submit
-        </button>
-        <p>These are our current members:</p>
-        <div style={{ display: "flex" }}>
-          {members.map((member: any) => (
-            <div
-              onClick={() => handleEdit(member)}
-              key={member._id}
-              style={{
-                position: "relative",
-                cursor: "pointer",
-                border: "1px solid #fff",
-                padding: 20,
-                borderRadius: 10,
-                margin: 20,
-                width: 200,
-              }}
-            >
-              <div
-                onClick={() => handleDelete(member)}
-                style={{
-                  position: "absolute",
-                  top: 10,
-                  right: 10,
-                  backgroundColor: "#750909",
-                  color: "#fff",
-                  borderRadius: "50%",
-                  height: 40,
-                  width: 40,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <p>DEL</p>
-              </div>
-              <p>{member.name}</p>
-              <p>{member.role}</p>
-              <p>{member.socialMediaUrl}</p>
-              <p>{member.description}</p>
-              <p>{member.imgUrl}</p>
-            </div>
-          ))}
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+    <ThemeProvider theme={theme}>
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+        <CssBaseline />
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         >
-          Powered by <span className={styles.logo}>Mouse Haunt</span>
-        </a>
-      </footer>
-    </div>
+          {isSmUp ? null : (
+            <Navigator
+              PaperProps={{ style: { width: drawerWidth } }}
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+            />
+          )}
+          <Navigator
+            PaperProps={{ style: { width: drawerWidth } }}
+            sx={{ display: { sm: 'block', xs: 'none' } }}
+          />
+        </Box>
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <Header onDrawerToggle={handleDrawerToggle} />
+          <Box component="main" sx={{ flex: 1, py: 6, px: 4, bgcolor: '#131524' }}>
+            <Team />
+          </Box>
+          <Box component="footer" sx={{ p: 2, bgcolor: '#eaeff1' }}>
+            <Copyright />
+          </Box>
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
-};
-
-export default Home;
+}
