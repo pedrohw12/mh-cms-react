@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const style = {
@@ -9,7 +8,9 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 800,
+  display: "flex",
+  justifyContent: "center",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -33,7 +34,18 @@ export default function BasicModal({
 }: Props) {
   return (
     <div>
-      <button onClick={handleOpen}>{modalTitle}</button>
+      <Button
+        variant="contained"
+        onClick={handleOpen}
+        sx={{
+          backgroundColor: "#1fc6ec",
+          '&:hover': {
+            backgroundColor: '#12a8c9'
+          }
+        }}
+      >
+        {modalTitle}
+      </Button>
       <Modal
         open={isModalOpen}
         onClose={handleClose}

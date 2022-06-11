@@ -133,34 +133,68 @@ const Home: NextPage = () => {
         }}
         isModalOpen={isModalOpen}
       >
-        <div>
-          <p>Add new member</p>
+        <div style={{ display: "flex", flexDirection: "column", width: 400 }}>
           <input
+            style={{
+              height: 40,
+              borderRadius: 10,
+              marginBottom: 5,
+              padding: 10,
+            }}
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <input
+            style={{
+              height: 40,
+              borderRadius: 10,
+              marginBottom: 5,
+              padding: 10,
+            }}
             placeholder="Role"
             value={role}
             onChange={(e) => setRole(e.target.value)}
           />
           <input
+            style={{
+              height: 40,
+              borderRadius: 10,
+              marginBottom: 5,
+              padding: 10,
+            }}
             placeholder="Social media url"
             value={socialMediaUrl}
             onChange={(e) => setSocialMediaUrl(e.target.value)}
           />
-          <input
+          <textarea
+            style={{
+              height: 300,
+              borderRadius: 10,
+              marginBottom: 5,
+              padding: 10,
+            }}
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <input
+            style={{
+              height: 40,
+              borderRadius: 10,
+              marginBottom: 5,
+              padding: 10,
+            }}
             placeholder="Image url"
             value={imgUrl}
             onChange={(e) => setImgUrl(e.target.value)}
           />
-          <button className="submitButton" type="button" onClick={handleSubmit}>
+          <button
+            style={{ height: 40, borderRadius: 10, width: "100%" }}
+            className="submitButton"
+            type="button"
+            onClick={handleSubmit}
+          >
             Submit
           </button>
         </div>
