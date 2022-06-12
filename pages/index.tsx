@@ -8,10 +8,11 @@ import Link from "@mui/material/Link";
 import Team from "./atomic/organism/team";
 import Navigator from "./atomic/organism/navigator";
 import Header from "./atomic/organism/header";
+import Careers from "./atomic/organism/careers";
 
 function Copyright() {
   return (
-    <Typography variant="body2"  align="center">
+    <Typography variant="body2" align="center">
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
@@ -169,6 +170,7 @@ const drawerWidth = 256;
 export default function Paperbase() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
+  const [selectedTab, setSelectedTab] = React.useState("Team");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -184,6 +186,8 @@ export default function Paperbase() {
         >
           {isSmUp ? null : (
             <Navigator
+              selectedTab={selectedTab}
+              onSelectTab={(tabName) => setSelectedTab(tabName)}
               PaperProps={{ style: { width: drawerWidth } }}
               variant="temporary"
               open={mobileOpen}
@@ -191,6 +195,8 @@ export default function Paperbase() {
             />
           )}
           <Navigator
+            selectedTab={selectedTab}
+            onSelectTab={(tabName) => setSelectedTab(tabName)}
             PaperProps={{ style: { width: drawerWidth } }}
             sx={{ display: { sm: "block", xs: "none" } }}
           />
@@ -201,7 +207,7 @@ export default function Paperbase() {
             component="main"
             sx={{ flex: 1, py: 6, px: 4, bgcolor: "#131524" }}
           >
-            <Team />
+            {selectedTab === "Team" ? <Team /> : <Careers />}
           </Box>
           <Box component="footer" sx={{ p: 2, bgcolor: "#131524" }}>
             <Copyright />

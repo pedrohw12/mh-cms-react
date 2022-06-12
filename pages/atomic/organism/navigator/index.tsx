@@ -19,6 +19,11 @@ const categories = [
         icon: <PeopleIcon />,
         active: true,
       },
+      {
+        id: "Career",
+        icon: <PeopleIcon />,
+        active: false,
+      },
     ],
   },
   {
@@ -42,8 +47,13 @@ const itemCategory = {
   px: 3,
 };
 
-export default function Navigator(props: DrawerProps) {
-  const { ...other } = props;
+interface Props extends DrawerProps {
+  onSelectTab: (tabName: string) => void;
+  selectedTab: string;
+}
+
+export default function Navigator(props: Props) {
+  const { selectedTab, onSelectTab, ...other } = props;
 
   return (
     <Drawer variant="permanent" {...other}>
@@ -59,8 +69,12 @@ export default function Navigator(props: DrawerProps) {
               <ListItemText sx={{ color: "#fff" }}>{id}</ListItemText>
             </ListItem>
             {children.map(({ id: childId, icon, active }) => (
-              <ListItem disablePadding key={childId}>
-                <ListItemButton selected={active} sx={item}>
+              <ListItem
+                onClick={() => onSelectTab(childId)}
+                disablePadding
+                key={childId}
+              >
+                <ListItemButton selected={selectedTab === childId} sx={item}>
                   <ListItemIcon>{icon}</ListItemIcon>
                   <ListItemText>{childId}</ListItemText>
                 </ListItemButton>
