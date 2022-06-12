@@ -10,6 +10,7 @@ const lightColor = "rgba(255, 255, 255, 0.7)";
 
 interface HeaderProps {
   onDrawerToggle: () => void;
+  title: string;
 }
 
 export default function Header(props: HeaderProps) {
@@ -31,7 +32,7 @@ export default function Header(props: HeaderProps) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
               <Typography color="inherit" variant="h5" component="h1">
-                Team
+                {props.title}
               </Typography>
             </Grid>
           </Grid>

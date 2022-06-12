@@ -202,7 +202,7 @@ export default function Paperbase() {
           />
         </Box>
         <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-          <Header onDrawerToggle={handleDrawerToggle} />
+          <Header title={selectedTab} onDrawerToggle={handleDrawerToggle} />
           <Box
             component="main"
             sx={{ flex: 1, py: 6, px: 4, bgcolor: "#131524" }}
