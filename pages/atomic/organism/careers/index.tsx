@@ -15,7 +15,7 @@ type Career = {
   location: string;
   salary: string;
   responsibilities: string;
-  requiriments: string;
+  requirements: string;
   niceToHave: string;
 };
 
@@ -26,7 +26,7 @@ const Careers: NextPage = () => {
   const [location, setLocation] = useState("");
   const [salary, setSalary] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
-  const [requiriments, setRequiriments] = useState("");
+  const [requirements, setRequiriments] = useState("");
   const [niceToHave, setNiceToHave] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +56,7 @@ const Careers: NextPage = () => {
         location,
         salary,
         responsibilities,
-        requiriments,
+        requirements,
         niceToHave,
       })
       .then((response) => {
@@ -80,7 +80,7 @@ const Careers: NextPage = () => {
         location,
         salary,
         responsibilities,
-        requiriments,
+        requirements,
         niceToHave,
       })
       .then((response) => {
@@ -99,7 +99,7 @@ const Careers: NextPage = () => {
     setLocation(career.location);
     setSalary(career.salary);
     setResponsibilities(career.responsibilities);
-    setRequiriments(career.requiriments);
+    setRequiriments(career.requirements);
     setNiceToHave(career.niceToHave);
   }
 
@@ -180,9 +180,9 @@ const Careers: NextPage = () => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <textarea
+          <input
             style={{
-              height: 300,
+              height: 40,
               borderRadius: 10,
               marginBottom: 5,
               padding: 10,
@@ -191,9 +191,9 @@ const Careers: NextPage = () => {
             value={salary}
             onChange={(e) => setSalary(e.target.value)}
           />
-          <input
+          <textarea
             style={{
-              height: 40,
+              height: 300,
               borderRadius: 10,
               marginBottom: 5,
               padding: 10,
@@ -202,20 +202,20 @@ const Careers: NextPage = () => {
             value={responsibilities}
             onChange={(e) => setResponsibilities(e.target.value)}
           />
-          <input
+          <textarea
             style={{
-              height: 40,
+              height: 300,
               borderRadius: 10,
               marginBottom: 5,
               padding: 10,
             }}
             placeholder="Requiriments"
-            value={requiriments}
+            value={requirements}
             onChange={(e) => setRequiriments(e.target.value)}
           />
-          <input
+          <textarea
             style={{
-              height: 40,
+              height: 300,
               borderRadius: 10,
               marginBottom: 5,
               padding: 10,
@@ -245,7 +245,7 @@ const Careers: NextPage = () => {
               location={career.location}
               salary={career.salary}
               responsibilities={career.responsibilities}
-              requiriments={career.requiriments}
+              requirements={career.requirements}
               niceToHave={career.niceToHave}
               handleEdit={() => {
                 handleEdit(career);

@@ -33,7 +33,7 @@ export default function BasicModal({
   isModalOpen,
 }: Props) {
   return (
-    <div>
+    <div style={{overflow: "scroll"}}>
       <Button
         variant="contained"
         onClick={handleOpen}
