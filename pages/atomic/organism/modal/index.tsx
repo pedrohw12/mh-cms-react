@@ -8,13 +8,15 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
+  width: "80%",
+  height: "80vh",
   display: "flex",
   justifyContent: "center",
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  overflow: "scroll",
+  paddingBottom: 100,
 };
 
 type Props = {
@@ -33,20 +35,21 @@ export default function BasicModal({
   isModalOpen,
 }: Props) {
   return (
-    <div style={{overflow: "scroll"}}>
+    <div style={{ overflow: "scroll" }}>
       <Button
         variant="contained"
         onClick={handleOpen}
         sx={{
           backgroundColor: "#1fc6ec",
-          '&:hover': {
-            backgroundColor: '#12a8c9'
-          }
+          "&:hover": {
+            backgroundColor: "#12a8c9",
+          },
         }}
       >
         {modalTitle}
       </Button>
       <Modal
+        sx={{ overflow: "scroll" }}
         open={isModalOpen}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"

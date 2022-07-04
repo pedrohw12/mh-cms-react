@@ -10,9 +10,9 @@ type Props = {
   period: string;
   location: string;
   salary: string;
-  responsibilities: [];
-  requirements: [];
-  niceToHave: [];
+  responsibilities: string;
+  requirements: string;
+  niceToHave: string;
   handleEdit: () => void;
   handleDelete: () => void;
 };
@@ -57,29 +57,16 @@ export default function CareerCard({
         </Typography>
         <Typography variant="body2" color="text.secondary">
           <b>Responsibilities:</b>
-          <ul>
-            {responsibilities.map((item: string, index) => {
-              if (item.length === 0) return;
-              return <li key={index}>{item}</li>;
-            })}
-          </ul>
         </Typography>
+        <div dangerouslySetInnerHTML={{ __html: responsibilities }} />
         <Typography variant="body2" color="text.secondary">
-          <b>Requiriments:</b>
-          <ul>
-            {requirements.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
+          <b>Requirements:</b>
         </Typography>
+        <div dangerouslySetInnerHTML={{ __html: requirements }} />
         <Typography variant="body2" color="text.secondary">
           <b>Nice to have:</b>
-          <ul>
-            {niceToHave.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
         </Typography>
+        <div dangerouslySetInnerHTML={{ __html: niceToHave }} />
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleEdit}>

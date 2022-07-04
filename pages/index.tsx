@@ -170,7 +170,7 @@ const drawerWidth = 256;
 export default function Paperbase() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const isSmUp = useMediaQuery(theme.breakpoints.up("sm"));
-  const [selectedTab, setSelectedTab] = React.useState("Team");
+  const [selectedTab, setSelectedTab] = React.useState("Careers");
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

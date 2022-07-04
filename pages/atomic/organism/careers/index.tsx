@@ -67,39 +67,23 @@ const Careers: NextPage = () => {
   }
 
   function handleEdit() {
-    const requerimentsFormat =
-      typeof requirements === "string"
-        ? requirements
-            .split('"')
-            .filter(
-              (el: string) =>
-                el.length > 0 ||
-                el.trim().indexOf("@") !== -1 ||
-                el.trim().indexOf("@") !== -1
-            )
-            .filter((element: string) => element.indexOf("@") === -1)
-        : requirements;
-
-    const responsibilitiesFormat =
-      typeof responsibilities === "string"
-        ? responsibilities
-            .trim()
-            .split("@")
-            .filter((el: string) => el.length > 0)
-            .filter((element: string) => element.indexOf("@") === -1)
-        : responsibilities;
-
-    console.log("responsibilities", responsibilities);
-    console.log("responsibilitiesFormat", responsibilitiesFormat);
-
+    console.log(
+      title,
+      period,
+      location,
+      salary,
+      responsibilities,
+      requirements,
+      niceToHave
+    );
     axios
       .put(`http://localhost:3333/careers/${selectedMemberToEdit._id}`, {
         title,
         period,
         location,
         salary,
-        responsibilities: responsibilitiesFormat,
-        requirements: requerimentsFormat,
+        responsibilities,
+        requirements,
         niceToHave,
       })
       .then((response) => {
@@ -157,10 +141,6 @@ const Careers: NextPage = () => {
     }
   }
 
-  function handleChangeRequirement(e: any) {
-    setRequirements(e.trim());
-  }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -177,7 +157,13 @@ const Careers: NextPage = () => {
         }}
         isModalOpen={isModalOpen}
       >
-        <div style={{ display: "flex", flexDirection: "column", width: 400 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <b style={{ color: "#000" }}>Title</b>
           <input
             style={{
               height: 40,
@@ -189,6 +175,7 @@ const Careers: NextPage = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+          <b style={{ color: "#000" }}>Period</b>
           <input
             style={{
               height: 40,
@@ -200,6 +187,7 @@ const Careers: NextPage = () => {
             value={period}
             onChange={(e) => setPeriod(e.target.value)}
           />
+          <b style={{ color: "#000" }}>Location</b>
           <input
             style={{
               height: 40,
@@ -211,42 +199,33 @@ const Careers: NextPage = () => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
+          <b style={{ color: "#000" }}>Salary</b>
           <input
             style={{
               height: 40,
               borderRadius: 10,
               marginBottom: 5,
               padding: 10,
+              zIndex: 50,
             }}
             placeholder="Salary"
             value={salary}
             onChange={(e) => setSalary(e.target.value)}
           />
-          <TextEditor />
-          <textarea
-            style={{
-              height: 300,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
-            }}
-            placeholder="Requiriments"
-            value={requirements}
-            onChange={(e) => handleChangeRequirement(e.target.value)}
-          />
-          <textarea
-            style={{
-              height: 300,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
-            }}
-            placeholder="Nice to have"
-            value={niceToHave}
-            onChange={(e) => setNiceToHave(e.target.value)}
-          />
+          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
+            Responsibilities
+          </b>
+          <TextEditor onChange={(e) => setResponsibilities(e)} />
+          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
+            Requirements
+          </b>
+          <TextEditor onChange={(e) => setRequirements(e)} />
+          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
+            Nice to have
+          </b>
+          <TextEditor onChange={(e) => setNiceToHave(e)} />
           <button
-            style={{ height: 40, borderRadius: 10, width: "100%" }}
+            style={{ height: 40, borderRadius: 10, width: "100%", zIndex: 50 }}
             className="submitButton"
             type="button"
             onClick={handleSubmit}
