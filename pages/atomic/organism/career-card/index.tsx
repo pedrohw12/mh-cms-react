@@ -58,9 +58,10 @@ export default function CareerCard({
         <Typography variant="body2" color="text.secondary">
           <b>Responsibilities:</b>
           <ul>
-            {responsibilities.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
+            {responsibilities.map((item: string, index) => {
+              if (item.length === 0) return;
+              return <li key={index}>{item}</li>;
+            })}
           </ul>
         </Typography>
         <Typography variant="body2" color="text.secondary">

@@ -2,11 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../../../../styles/Home.module.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import BasicSpeedDial from "../button";
-import BasicButton from "../button";
+import React, { useEffect, useState } from "react";
 import BasicModal from "../modal";
 import CareerCard from "../career-card";
+import TextEditor from "../../molecules/quill";
 
 type Career = {
   _id: string;
@@ -26,7 +25,7 @@ const Careers: NextPage = () => {
   const [location, setLocation] = useState("");
   const [salary, setSalary] = useState("");
   const [responsibilities, setResponsibilities] = useState("");
-  const [requirements, setRequiriments] = useState("");
+  const [requirements, setRequirements] = useState<string>("");
   const [niceToHave, setNiceToHave] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,11 +66,31 @@ const Careers: NextPage = () => {
       .catch((err) => console.log(err));
   }
 
-  function handleSubmit() {
-    if (!isEditing) {
-      registerCareer();
-      return;
-    }
+  function handleEdit() {
+    const requerimentsFormat =
+      typeof requirements === "string"
+        ? requirements
+            .split('"')
+            .filter(
+              (el: string) =>
+                el.length > 0 ||
+                el.trim().indexOf("@") !== -1 ||
+                el.trim().indexOf("@") !== -1
+            )
+            .filter((element: string) => element.indexOf("@") === -1)
+        : requirements;
+
+    const responsibilitiesFormat =
+      typeof responsibilities === "string"
+        ? responsibilities
+            .trim()
+            .split("@")
+            .filter((el: string) => el.length > 0)
+            .filter((element: string) => element.indexOf("@") === -1)
+        : responsibilities;
+
+    console.log("responsibilities", responsibilities);
+    console.log("responsibilitiesFormat", responsibilitiesFormat);
 
     axios
       .put(`http://localhost:3333/careers/${selectedMemberToEdit._id}`, {
@@ -79,8 +98,8 @@ const Careers: NextPage = () => {
         period,
         location,
         salary,
-        responsibilities,
-        requirements,
+        responsibilities: responsibilitiesFormat,
+        requirements: requerimentsFormat,
         niceToHave,
       })
       .then((response) => {
@@ -91,7 +110,15 @@ const Careers: NextPage = () => {
       .catch((err) => console.log(err));
   }
 
-  function handleEdit(career: Career) {
+  function handleSubmit() {
+    if (!isEditing) {
+      registerCareer();
+      return;
+    }
+    handleEdit();
+  }
+
+  function populateFieldsToEdit(career: Career) {
     setIsEditing(true);
     setSelectedCareerToEdit(career);
     setTitle(career.title);
@@ -99,7 +126,7 @@ const Careers: NextPage = () => {
     setLocation(career.location);
     setSalary(career.salary);
     setResponsibilities(career.responsibilities);
-    setRequiriments(career.requirements);
+    setRequirements(career.requirements);
     setNiceToHave(career.niceToHave);
   }
 
@@ -110,7 +137,7 @@ const Careers: NextPage = () => {
     setLocation("");
     setSalary("");
     setResponsibilities("");
-    setRequiriments("");
+    setRequirements("");
     setNiceToHave("");
   }
 
@@ -128,6 +155,10 @@ const Careers: NextPage = () => {
     } else {
       return;
     }
+  }
+
+  function handleChangeRequirement(e: any) {
+    setRequirements(e.trim());
   }
 
   return (
@@ -191,17 +222,7 @@ const Careers: NextPage = () => {
             value={salary}
             onChange={(e) => setSalary(e.target.value)}
           />
-          <textarea
-            style={{
-              height: 300,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
-            }}
-            placeholder="Responsibilities"
-            value={responsibilities}
-            onChange={(e) => setResponsibilities(e.target.value)}
-          />
+          <TextEditor />
           <textarea
             style={{
               height: 300,
@@ -211,7 +232,7 @@ const Careers: NextPage = () => {
             }}
             placeholder="Requiriments"
             value={requirements}
-            onChange={(e) => setRequiriments(e.target.value)}
+            onChange={(e) => handleChangeRequirement(e.target.value)}
           />
           <textarea
             style={{
@@ -248,7 +269,7 @@ const Careers: NextPage = () => {
               requirements={career.requirements}
               niceToHave={career.niceToHave}
               handleEdit={() => {
-                handleEdit(career);
+                populateFieldsToEdit(career);
                 setIsModalOpen(true);
               }}
               handleDelete={() => handleDelete(career)}
