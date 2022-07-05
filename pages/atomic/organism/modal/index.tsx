@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
+import AddIcon from "@mui/icons-material/Add";
 
 const style = {
   position: "absolute" as "absolute",
@@ -35,18 +36,28 @@ export default function BasicModal({
   isModalOpen,
 }: Props) {
   return (
-    <div style={{ overflow: "scroll" }}>
+    <div
+      style={{
+        overflow: "scroll",
+        position: "absolute",
+        bottom: 50,
+        right: 50,
+      }}
+    >
       <Button
         variant="contained"
         onClick={handleOpen}
         sx={{
+          width: 60,
+          height: 60,
+          borderRadius: "50%",
           backgroundColor: "#1fc6ec",
           "&:hover": {
             backgroundColor: "#12a8c9",
           },
         }}
       >
-        {modalTitle}
+        <AddIcon />
       </Button>
       <Modal
         sx={{ overflow: "scroll" }}

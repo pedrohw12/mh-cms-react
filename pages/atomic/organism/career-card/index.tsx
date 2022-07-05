@@ -43,7 +43,7 @@ export default function CareerCard({
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        {/* <Typography variant="body2" color="text.secondary">
           <b>Period:</b>
           {period}
         </Typography>
@@ -66,13 +66,24 @@ export default function CareerCard({
         <Typography variant="body2" color="text.secondary">
           <b>Nice to have:</b>
         </Typography>
-        <div dangerouslySetInnerHTML={{ __html: niceToHave }} />
+        <div dangerouslySetInnerHTML={{ __html: niceToHave }} /> */}
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={handleEdit}>
+        <Button
+          size="small"
+          onClick={handleEdit}
+          sx={{ "&:hover": { backgroundColor: "#c3f285" }, fontWeight: "bold" }}
+        >
           Edit
         </Button>
-        <Button size="small" onClick={handleDelete}>
+        <Button
+          size="small"
+          onClick={handleDelete}
+          sx={{
+            "&:hover": { backgroundColor: "#f28585", color: "#fff" },
+            fontWeight: "bold",
+          }}
+        >
           Delete
         </Button>
       </CardActions>

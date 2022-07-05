@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import BasicModal from "../modal";
 import CareerCard from "../career-card";
 import TextEditor from "../../molecules/quill";
+import TextField from "@mui/material/TextField";
 
 type Career = {
   _id: string;
@@ -157,75 +158,71 @@ const Careers: NextPage = () => {
         }}
         isModalOpen={isModalOpen}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <b style={{ color: "#000" }}>Title</b>
-          <input
+        <div>
+          <div
             style={{
-              height: 40,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
+              display: "flex",
+              flexDirection: "column",
             }}
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <b style={{ color: "#000" }}>Period</b>
-          <input
+          >
+            <TextField
+              id="outlined-basic"
+              label="Title"
+              variant="outlined"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              sx={{ marginBottom: 3 }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Period"
+              variant="outlined"
+              value={period}
+              onChange={(e) => setPeriod(e.target.value)}
+              sx={{ marginBottom: 3 }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Location"
+              variant="outlined"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              sx={{ marginBottom: 3 }}
+            />
+            <TextField
+              id="outlined-basic"
+              label="Salary"
+              variant="outlined"
+              value={salary}
+              onChange={(e) => setSalary(e.target.value)}
+              sx={{ marginBottom: 5 }}
+            />
+            <b style={{ color: "#000", zIndex: 50 }}>Responsibilities</b>
+            <TextEditor
+              value={responsibilities}
+              onChange={(e) => setResponsibilities(e)}
+            />
+            <b style={{ color: "#000", zIndex: 50, marginTop: 100 }}>
+              Requirements
+            </b>
+            <TextEditor
+              value={requirements}
+              onChange={(e) => setRequirements(e)}
+            />
+            <b style={{ color: "#000", zIndex: 50, marginTop: 100 }}>
+              Nice to have
+            </b>
+            <TextEditor value={niceToHave} onChange={(e) => setNiceToHave(e)} />
+          </div>
+          <button
             style={{
+              marginTop: 100,
+              marginBottom: 20,
               height: 40,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
-            }}
-            placeholder="Period"
-            value={period}
-            onChange={(e) => setPeriod(e.target.value)}
-          />
-          <b style={{ color: "#000" }}>Location</b>
-          <input
-            style={{
-              height: 40,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
-            }}
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
-          <b style={{ color: "#000" }}>Salary</b>
-          <input
-            style={{
-              height: 40,
-              borderRadius: 10,
-              marginBottom: 5,
-              padding: 10,
+              borderRadius: 8,
+              width: "100%",
               zIndex: 50,
             }}
-            placeholder="Salary"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-          />
-          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
-            Responsibilities
-          </b>
-          <TextEditor onChange={(e) => setResponsibilities(e)} />
-          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
-            Requirements
-          </b>
-          <TextEditor onChange={(e) => setRequirements(e)} />
-          <b style={{ color: "#000", marginBottom: -60, zIndex: 50 }}>
-            Nice to have
-          </b>
-          <TextEditor onChange={(e) => setNiceToHave(e)} />
-          <button
-            style={{ height: 40, borderRadius: 10, width: "100%", zIndex: 50 }}
             className="submitButton"
             type="button"
             onClick={handleSubmit}
@@ -236,7 +233,7 @@ const Careers: NextPage = () => {
       </BasicModal>
       <h1>Careers</h1>
       <main className={styles.main}>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
           {careers.map((career: any) => (
             <CareerCard
               key={career._id}

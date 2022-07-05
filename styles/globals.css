@@ -8,6 +8,10 @@ body {
     background-color: #131524;
 }
 
+.quill > .ql-toolbar:first-child {
+  display: none !important;
+}
+
 button {
   height: 40px;
   border: none;
