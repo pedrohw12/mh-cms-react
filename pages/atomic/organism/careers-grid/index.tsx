@@ -5,6 +5,7 @@ import styles from "../../../../styles/Home.module.css";
 type Props = {
   careers: Career[];
   handleDelete: (career: Career) => void;
+  handleEdit: (career: Career) => void;
   populateFieldsToEdit: (career: Career) => void;
   setIsModalOpen: (value: boolean) => void;
 };
@@ -13,6 +14,7 @@ const CareersGrid: React.FC<Props> = ({
   careers,
   handleDelete,
   populateFieldsToEdit,
+  handleEdit,
   setIsModalOpen,
 }: Props) => {
   return (
@@ -31,8 +33,7 @@ const CareersGrid: React.FC<Props> = ({
               requirements={career.requirements}
               niceToHave={career.niceToHave}
               handleEdit={() => {
-                populateFieldsToEdit(career);
-                setIsModalOpen(true);
+                handleEdit(career);
               }}
               handleDelete={() => handleDelete(career)}
             />

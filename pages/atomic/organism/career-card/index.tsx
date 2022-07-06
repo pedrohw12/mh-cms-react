@@ -17,17 +17,7 @@ type Props = {
   handleDelete: () => void;
 };
 
-export default function CareerCard({
-  title,
-  period,
-  location,
-  salary,
-  responsibilities,
-  requirements,
-  niceToHave,
-  handleEdit,
-  handleDelete,
-}: Props) {
+export default function CareerCard({ title, handleEdit, handleDelete }: Props) {
   return (
     <Card
       sx={{
