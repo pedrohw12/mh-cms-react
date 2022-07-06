@@ -43,30 +43,6 @@ export default function CareerCard({
         <Typography gutterBottom variant="h5" component="div">
           {title}
         </Typography>
-        {/* <Typography variant="body2" color="text.secondary">
-          <b>Period:</b>
-          {period}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <b>Location:</b>
-          {location}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <b>Salary:</b>
-          {salary}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          <b>Responsibilities:</b>
-        </Typography>
-        <div dangerouslySetInnerHTML={{ __html: responsibilities }} />
-        <Typography variant="body2" color="text.secondary">
-          <b>Requirements:</b>
-        </Typography>
-        <div dangerouslySetInnerHTML={{ __html: requirements }} />
-        <Typography variant="body2" color="text.secondary">
-          <b>Nice to have:</b>
-        </Typography>
-        <div dangerouslySetInnerHTML={{ __html: niceToHave }} /> */}
       </CardContent>
       <CardActions>
         <Button

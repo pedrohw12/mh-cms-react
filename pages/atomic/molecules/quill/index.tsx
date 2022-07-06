@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { createRef, useEffect, useRef } from "react";
 const QuillNoSSRWrapper = dynamic(import("react-quill"), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
@@ -14,26 +13,14 @@ type Props = {
 
 const TextEditor: React.FC<Props> = ({ onChange, value }: Props) => {
   return (
-    // <div style={{ position: "relative", height: 400 }}>
-    //   <div
-    //     style={{
-    //       width: "100%",
-    //       height: 75,
-    //       backgroundColor: "#fff",
-    //       borderBottom: "1px solid #ddd",
-    //       position: "absolute",
-    //       zIndex: 5,
-    //     }}
-    //   />
-      <QuillNoSSRWrapper
-        value={value}
-        onChange={onChange}
-        style={{ color: "#000", height: 400, width: 800 }}
-        modules={modules}
-        formats={formats}
-        theme="snow"
-      />
-    // </div>
+    <QuillNoSSRWrapper
+      value={value}
+      onChange={onChange}
+      style={{ color: "#000", height: 400, width: 800 }}
+      modules={modules}
+      formats={formats}
+      theme="snow"
+    />
   );
 };
 export default TextEditor;
