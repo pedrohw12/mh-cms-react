@@ -1,26 +1,17 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../../../../styles/Home.module.css";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import BasicModal from "../modal";
 import CareerCard from "../career-card";
 import TextEditor from "../../molecules/quill";
 import TextField from "@mui/material/TextField";
-
-type Career = {
-  _id: string;
-  title: string;
-  period: string;
-  location: string;
-  salary: string;
-  responsibilities: string;
-  requirements: string;
-  niceToHave: string;
-};
+import { CareerRepository } from "../../../../repository/careerRepository";
+import { Career } from "../../../types/career";
 
 const Careers: NextPage = () => {
-  const [careers, setCareers] = useState([]);
+  const careerRepository = new CareerRepository();
+  const [careers, setCareers] = useState<Career[]>([]);
   const [title, setTitle] = useState("");
   const [period, setPeriod] = useState("");
   const [location, setLocation] = useState("");
@@ -35,63 +26,42 @@ const Careers: NextPage = () => {
   );
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3333/careers")
-      .then((response) => {
-        console.log(response);
-        setCareers(response.data);
-      })
-      .catch((err) => console.log(err));
+    careerRepository
+      .getCareers()
+      .then(setCareers)
+      .catch((err) => console.log("err", err));
   }, []);
 
   function registerCareer() {
-    if (!title || !period || !location || !salary || !responsibilities) {
-      alert("Please fill all the inputs.");
-      return;
-    }
-    axios
-      .post("http://localhost:3333/careers", {
+    careerRepository
+      .registerCareer(
         title,
         period,
         location,
         salary,
         responsibilities,
         requirements,
-        niceToHave,
-      })
-      .then((response) => {
-        console.log(response);
-        alert("Career successfully registered!");
+        niceToHave
+      )
+      .then(() => {
         setIsModalOpen(false);
       })
       .catch((err) => console.log(err));
   }
 
   function handleEdit() {
-    console.log(
-      title,
-      period,
-      location,
-      salary,
-      responsibilities,
-      requirements,
-      niceToHave
-    );
-    axios
-      .put(`http://localhost:3333/careers/${selectedMemberToEdit._id}`, {
+    careerRepository
+      .updateCareer(
+        selectedMemberToEdit._id,
         title,
         period,
         location,
         salary,
         responsibilities,
         requirements,
-        niceToHave,
-      })
-      .then((response) => {
-        console.log(response);
-        alert("Career successfully updated!");
-        setIsModalOpen(false);
-      })
+        niceToHave
+      )
+      .then(() => setIsModalOpen(false))
       .catch((err) => console.log(err));
   }
 
@@ -127,19 +97,7 @@ const Careers: NextPage = () => {
   }
 
   function handleDelete(career: Career) {
-    let confirmAction = confirm("Are you sure to delete this career?");
-    if (confirmAction) {
-      axios
-        .delete(`http://localhost:3333/careers/${career._id}`)
-        .then((response) => {
-          console.log(response);
-          alert("Member successfully registered!");
-        })
-        .catch((err) => console.log(err));
-      return;
-    } else {
-      return;
-    }
+    careerRepository.deleteCareer(career._id);
   }
 
   return (
