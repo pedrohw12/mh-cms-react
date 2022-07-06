@@ -23,6 +23,8 @@ type Props = {
   onChangeNiceToHave: (e: string) => void;
   niceToHave: string;
   isModalOpen: boolean;
+  isEditing: boolean;
+  selectedMemberToEdit: Career
 };
 
 const CareersModal: React.FC<Props> = ({
@@ -43,12 +45,10 @@ const CareersModal: React.FC<Props> = ({
   onChangeNiceToHave,
   niceToHave,
   isModalOpen,
+  isEditing,
+  selectedMemberToEdit
 }: Props) => {
   const careerRepository = new CareerRepository();
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedMemberToEdit, setSelectedCareerToEdit] = useState<Career>(
-    {} as Career
-  );
 
   function registerCareer() {
     careerRepository

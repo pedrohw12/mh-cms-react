@@ -1,10 +1,10 @@
 import type { NextPage } from "next";
-import styles from "../../../../styles/Home.module.css";
 import React, { useEffect, useState } from "react";
 import { CareerRepository } from "../../../../repository/careerRepository";
 import { Career } from "../../../types/career";
 import CareersGrid from "../careers-grid";
 import CareersModal from "../careers-modal";
+import Page from "../../molecules/page";
 
 const Careers: NextPage = () => {
   const careerRepository = new CareerRepository();
@@ -57,8 +57,10 @@ const Careers: NextPage = () => {
   }
 
   return (
-    <div className={styles.container}>
+    <Page>
       <CareersModal
+        selectedMemberToEdit={selectedMemberToEdit}
+        isEditing={isEditing}
         onChangeTitle={(value) => setTitle(value)}
         title={title}
         onChangePeriod={(value) => setPeriod(value)}
@@ -90,7 +92,7 @@ const Careers: NextPage = () => {
         populateFieldsToEdit={(career: Career) => populateFieldsToEdit(career)}
         setIsModalOpen={(value: boolean) => setIsModalOpen(value)}
       />
-    </div>
+    </Page>
   );
 };
 
